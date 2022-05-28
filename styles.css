@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  min-height: 30px;
+  gap: 10px;
+  border: 1px solid #000000;
+}
+
+.grid-cell {
+  flex: 1;
+  background-color: #D5C9BA;
+}

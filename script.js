@@ -1,123 +1,86 @@
 /*
     > Add a button to the top of the screen that will send the user a popup
     asking for the number of squares per side for the new grid.
+*/
 
-    index.html:
-
-    Add button with text "Create new grid";
-
-    **************
-
-    script.js:
-
-    function validateUserInput(gridSize)
+function validateUserInput(gridSize)
+{
+    if (isNaN(gridSize) || (gridSize < 1 || gridSize > 100))
     {
-        let validInput = true;
+        alert("That is an invalid number. Please enter a number in the range " + 
+                "of 1 to 100.");
 
-        if (gridSize < 1 || gridSize > 100)
-        {
-            Alert to user that the number is invalid and show the available
-            range of numbers to choose from.
-
-            validInput = false;
-        }
-
-        return validInput;
+        return false;
     }
 
-    function getNewGridSize()
+    return true;
+}
+
+function getNewGridSize()
+{
+    let isValidInput;
+
+    do {
+        gridSize = prompt("Enter a number n (in the range of 1 to 100) to " +
+                "create a new grid of size nxn");
+        isValidInput = validateUserInput(gridSize);
+    } while (!isValidInput);
+
+    return gridSize;
+}
+
+function clearGrid(gridContainer = document.querySelector('#grid-container'))
+{
+    while (gridContainer.hasChildNodes())
     {
-        let validInput = true;
-
-        do {
-            Prompt user for a number n that will produce an nxn grid size and
-            store in variable gridSize;
-            let isValidInput = validateUserInput(gridSize);
-        } while (!validInput);
-
-        return gridSize;
+        gridContainer.removeChild(gridContainer.lastChild);
     }
+}
 
-    function clearGrid(gridContainer)
-    {
-        while the gridContainer has child nodes;
-        {
-            Remove the last child of gridContainer;
-        }
-    }
+function addBehaviorToGridCells()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
 
-    function addBehaviorToGridCells()
-    {
-        const gridCells = document.querySelectorAll('.grid-cell');
-
-        gridCells.forEach(gridCell => {
-            gridCell.addEventListener('pointerover', (event) => {
-                event.target.classList.add('hovered');
-            })
+    gridCells.forEach(gridCell => {
+        gridCell.addEventListener('pointerover', (event) => {
+            event.target.classList.add('hovered');
         })
+    })
+}
+
+function createNewGrid()
+{
+    const gridContainer = document.querySelector('#grid-container');
+
+    clearGrid(gridContainer);
+
+    const gridSize = getNewGridSize();
+
+    for (count = 0; count < gridSize; count++)
+    {
+        const div = document.createElement('div');
+        div.classList.toggle('row');
+        gridContainer.appendChild(div);
     }
 
-    function createNewGrid(gridContainer)
-    {
-        const gridContainer = document.querySelector('#grid-container');
+    const rows = document.querySelectorAll('.row');
 
-        Clear the current grid;
-        const gridSize = getNewGridSize(gridContainer);
-
+    rows.forEach((divElement) => {
         for (count = 0; count < gridSize; count++)
         {
             const div = document.createElement('div');
-            div.classList.toggle('row');
-            gridContainer.appendChild(div);
+            div.classList.toggle('grid-cell');
+            divElement.appendChild(div);
         }
+    })
 
-        const rows = document.querySelectorAll('.row');
-
-        rows.forEach((divElement) => {
-            for (count = 0; count < gridSize; count++)
-            {
-                const div = document.createElement('div');
-                div.classList.toggle('grid-cell');
-                divElement.appendChild(div);
-            }
-        })
-
-        addBehaviorToGridCells();
-    }
-
-    initiateEtchASketch()
-    {
-        Get reference to "create-new-grid-button";
-        Add event listener 'click' to button with callback function
-        createNewGrid;
-    }
-*/
-
-
-const gridContainer = document.querySelector('#grid-container');
-
-for (count = 0; count < 16; count++)
-{
-    const div = document.createElement('div');
-    div.classList.toggle('row');
-    gridContainer.appendChild(div);
+    addBehaviorToGridCells();
 }
 
-const rows = document.querySelectorAll('.row');
+function initiateEtchASketch()
+{
+    const button = document.querySelector('#create-new-grid-button');
+    button.addEventListener('click', createNewGrid);
+}
 
-rows.forEach((divElement) => {
-    for (count = 0; count < 16; count++)
-    {
-        const div = document.createElement('div');
-        div.classList.toggle('grid-cell');
-        divElement.appendChild(div);
-    }
-})
-
-const gridCells = document.querySelectorAll('.grid-cell');
-
-gridCells.forEach(gridCell => {
-    gridCell.addEventListener('pointerover', (event) => {
-        event.target.classList.add('hovered');
-    })
-})
+initiateEtchASketch();

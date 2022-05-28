@@ -2,9 +2,16 @@
   box-sizing: border-box;
 }
 
+#grid-container {
+  min-height: 95vh;
+  border: 3px solid #000000;
+  display: flex;
+  flex-direction: column;
+}
+
 .row {
   display: flex;
-  min-height: 30px;
+  flex: 1;
 }
 
 .grid-cell {

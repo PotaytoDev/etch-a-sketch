@@ -1,23 +1,4 @@
 /*
-    > Set up a “hover” effect so that the grid divs change color when your
-    mouse passes over them, leaving a (pixelated) trail through your grid like
-    a pen would.
-
-        script.js:
-
-        Get reference for nodelist of "grid-cell" divs;
-        forEach of the elements in nodelist:
-            .addEventListener('pointerover', (event) => {
-                event.target.classList.toggle('hovered');
-            })
-
-        *******************
-        styles.css:
-
-        .hovered {
-            background-color: black;
-        }
-
     > Add a button to the top of the screen that will send the user a popup
     asking for the number of squares per side for the new grid.
 */
@@ -39,7 +20,14 @@ rows.forEach((divElement) => {
     {
         const div = document.createElement('div');
         div.classList.toggle('grid-cell');
-        div.textContent = count + 1;
         divElement.appendChild(div);
     }
+})
+
+const gridCells = document.querySelectorAll('.grid-cell');
+
+gridCells.forEach(gridCell => {
+    gridCell.addEventListener('pointerover', (event) => {
+        event.target.classList.add('hovered');
+    })
 })

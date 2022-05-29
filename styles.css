@@ -15,9 +15,17 @@ button {
   margin: 16px;
   padding: 12px;
   font-size: 20px;
-  background-color: #AD6B7F;
-  border: 3px outset #AD6B7F;
+  background-color: #FF868E;
+  border: 3px outset #C4515C;
   border-radius: 5px;
+}
+
+button:hover {
+  background-color: #C4515C;
+}
+
+button:active {
+  background-color: #922235;
 }
 
 /* Grid Container */

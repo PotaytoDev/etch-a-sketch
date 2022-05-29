@@ -34,12 +34,28 @@ function clearGrid(gridContainer = document.querySelector('#grid-container'))
 
 function enableSingleColorPaint()
 {
+    let isDrawing = false;
     const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
-        gridCell.addEventListener('pointerover', (event) => {
-            event.target.style.cssText = "background-color: #000000";
-        })
+        gridCell.addEventListener('mousedown', (event) => {
+            if (isDrawing)
+            {
+                isDrawing = false;
+            }
+            else
+            {
+                isDrawing = true;
+                event.target.style.cssText = "background-color: #000000";
+            }
+        });
+
+        gridCell.addEventListener('mouseover', (event) => {
+            if (isDrawing)
+            {
+                event.target.style.cssText = "background-color: #000000";
+            }
+        });
     });
 }
 
@@ -84,15 +100,35 @@ function initiateEtchASketch()
 
 function changeToRandomColor()
 {
+    let isDrawing = false;
     const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
-        gridCell.addEventListener('pointerover', (event) => {
-
+        gridCell.addEventListener('mousedown', (event) => {
             let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
                     `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
 
-            event.target.style.cssText = `background-color: ${randomRGBColor}`;
+            if (isDrawing)
+            {
+                isDrawing = false;
+            }
+            else
+            {
+                isDrawing = true;
+                
+                // Only paint grid cell if it is not already painted when clicked
+                event.target.style.cssText = `background-color: ${randomRGBColor}`;
+            }
+        })
+        
+        gridCell.addEventListener('mouseover', (event) => {
+            if (isDrawing)
+            {
+                let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
+                    `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
+
+                event.target.style.cssText = `background-color: ${randomRGBColor}`;
+            }
         })
     });
 }

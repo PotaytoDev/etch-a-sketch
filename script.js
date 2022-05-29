@@ -32,13 +32,13 @@ function clearGrid(gridContainer = document.querySelector('#grid-container'))
     }
 }
 
-function addBehaviorToGridCells()
+function enableSingleColorPaint()
 {
     const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
         gridCell.addEventListener('pointerover', (event) => {
-            event.target.classList.add('hovered');
+            event.target.style.cssText = "background-color: #000000";
         })
     });
 }
@@ -68,8 +68,6 @@ function createNewGrid()
             divElement.appendChild(div);
         }
     })
-
-    addBehaviorToGridCells();
 }
 
 function initiateEtchASketch()
@@ -79,6 +77,9 @@ function initiateEtchASketch()
 
     const rainbowBrushButton = document.querySelector('#rainbow-brush-button');
     rainbowBrushButton.addEventListener('click', changeToRandomColor);
+
+    const singleColorBrushButton = document.querySelector('#single-color-brush-button');
+    singleColorBrushButton.addEventListener('click', enableSingleColorPaint);
 }
 
 function changeToRandomColor()

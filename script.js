@@ -18,6 +18,9 @@ function getNewGridSize()
     do {
         gridSize = prompt("Enter a number n (in the range of 1 to 100) to " +
                 "create a new grid of size nxn");
+                
+        if (gridSize === null || gridSize === undefined || gridSize === '') return 0;
+
         isValidInput = validateUserInput(gridSize);
     } while (!isValidInput);
 
@@ -63,9 +66,11 @@ function createNewGrid()
 {
     const gridContainer = document.querySelector('#grid-container');
 
-    clearGrid(gridContainer);
-
     const gridSize = getNewGridSize();
+
+    if (gridSize === 0) return;
+
+    clearGrid(gridContainer);
 
     for (count = 0; count < gridSize; count++)
     {

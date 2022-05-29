@@ -69,8 +69,7 @@ function createNewGrid()
         }
     })
 
-    // addBehaviorToGridCells();
-    changeToRandomColor();
+    addBehaviorToGridCells();
 }
 
 function initiateEtchASketch()
@@ -78,7 +77,8 @@ function initiateEtchASketch()
     const createNewGridButton = document.querySelector('#create-new-grid-button');
     createNewGridButton.addEventListener('click', createNewGrid);
 
-    
+    const rainbowBrushButton = document.querySelector('#rainbow-brush-button');
+    rainbowBrushButton.addEventListener('click', changeToRandomColor);
 }
 
 function changeToRandomColor()
@@ -87,7 +87,7 @@ function changeToRandomColor()
 
     gridCells.forEach(gridCell => {
         gridCell.addEventListener('pointerover', (event) => {
-            
+
             let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
                     `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
 

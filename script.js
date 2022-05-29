@@ -1,8 +1,3 @@
-/*
-    > Add a button to the top of the screen that will send the user a popup
-    asking for the number of squares per side for the new grid.
-*/
-
 function validateUserInput(gridSize)
 {
     if (isNaN(gridSize) || (gridSize < 1 || gridSize > 100))
@@ -45,7 +40,7 @@ function addBehaviorToGridCells()
         gridCell.addEventListener('pointerover', (event) => {
             event.target.classList.add('hovered');
         })
-    })
+    });
 }
 
 function createNewGrid()
@@ -74,13 +69,36 @@ function createNewGrid()
         }
     })
 
-    addBehaviorToGridCells();
+    // addBehaviorToGridCells();
+    changeToRandomColor();
 }
 
 function initiateEtchASketch()
 {
-    const button = document.querySelector('#create-new-grid-button');
-    button.addEventListener('click', createNewGrid);
+    const createNewGridButton = document.querySelector('#create-new-grid-button');
+    createNewGridButton.addEventListener('click', createNewGrid);
+
+    
+}
+
+function changeToRandomColor()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
+
+    gridCells.forEach(gridCell => {
+        gridCell.addEventListener('pointerover', (event) => {
+            
+            let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
+                    `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
+
+            event.target.style.cssText = `background-color: ${randomRGBColor}`;
+        })
+    });
+}
+
+function getRandomNumber(highestNumberRange)
+{
+    return Math.floor(Math.random() * (highestNumberRange + 1));
 }
 
 initiateEtchASketch();

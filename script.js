@@ -38,10 +38,12 @@ function clearGrid(gridContainer = document.querySelector('#grid-container'))
 function enableSingleColorPaint()
 {
     let isDrawing = false;
+    let paintColor;
     const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
         gridCell.addEventListener('mousedown', (event) => {
+            paintColor = document.querySelector('#color-well').value;
             if (isDrawing)
             {
                 isDrawing = false;
@@ -49,14 +51,14 @@ function enableSingleColorPaint()
             else
             {
                 isDrawing = true;
-                event.target.style.cssText = "background-color: #000000";
+                event.target.style.cssText = `background-color: ${paintColor}`;
             }
         });
 
         gridCell.addEventListener('mouseover', (event) => {
             if (isDrawing)
             {
-                event.target.style.cssText = "background-color: #000000";
+                event.target.style.cssText = `background-color: ${paintColor}`;
             }
         });
     });

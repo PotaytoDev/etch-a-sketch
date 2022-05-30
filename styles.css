@@ -28,6 +28,11 @@ button:active {
   background-color: #922235;
 }
 
+.active {
+  border: 3px inset #922235;
+  background-color: #C4515C;
+}
+
 /* Grid Container */
 
 #grid-container {

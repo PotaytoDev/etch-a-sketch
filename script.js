@@ -93,8 +93,26 @@ function createNewGrid()
     })
 }
 
+function enableSingleButton(event)
+{
+    document.querySelectorAll('button').forEach(button => {
+        button.classList.remove('active')
+    });
+    
+    // Only add 'active' class to button if it is not the create-new-grid button
+    if (event.target.id !== 'create-new-grid-button')
+    {
+        event.target.classList.add('active');
+    }
+}
+
 function initiateEtchASketch()
 {
+    const paintButtons = document.querySelectorAll('button');
+    paintButtons.forEach(button => {
+        button.addEventListener('click', enableSingleButton);
+    })
+    
     const createNewGridButton = document.querySelector('#create-new-grid-button');
     createNewGridButton.addEventListener('click', createNewGrid);
 

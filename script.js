@@ -58,49 +58,42 @@ function getPaintColor(paintButton)
     return paintColor;
 }
 
-// Global variables needed for the following four functions
-let isDrawing = false;
-let paintButton;
-
-function disablePaint(gridCells)
-{
-    gridCells.forEach(gridCell => {
-        gridCell.removeEventListener('mousedown', startAndStopPainting);
-        gridCell.removeEventListener('mouseover', continuePainting);
-    })
-}
-
-function startAndStopPainting(event)
-{
-    if (isDrawing)
-    {
-        isDrawing = false;
-    }
-    else
-    {
-        isDrawing = true;
-        let paintColor = getPaintColor(paintButton);
-        
-        // Only paint grid cell if it is not already painted when clicked
-        event.target.style.cssText = `background-color: ${paintColor}`;
-    }
-}
-
-function continuePainting(event)
-{
-    if (isDrawing)
-    {
-        let paintColor = getPaintColor(paintButton);
-        event.target.style.cssText = `background-color: ${paintColor}`;
-    }
-}
-
 function enablePaint(event)
 {
-    paintButton = event.target.id;
-    const gridCells = document.querySelectorAll('.grid-cell');
+    let isDrawing = false;
+    let paintButton = event.target.id;
 
-    disablePaint(gridCells);
+    function startAndStopPainting(event)
+    {
+        if (isDrawing)
+        {
+            isDrawing = false;
+        }
+        else
+        {
+            isDrawing = true;
+            let paintColor = getPaintColor(paintButton);
+            
+            // Only paint grid cell if it is not already painted when clicked
+            event.target.style.cssText = `background-color: ${paintColor}`;
+        }
+    }
+
+    function continuePainting(event)
+    {
+        if (isDrawing)
+        {
+            let paintColor = getPaintColor(paintButton);
+            event.target.style.cssText = `background-color: ${paintColor}`;
+        }
+    }
+
+    // Clone entire grid and its children nodes in order to remove event
+    // listeners from grid cells
+    const gridContainer = document.querySelector('#grid-container');
+    gridContainer.replaceWith(gridContainer.cloneNode(true));
+
+    const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
         gridCell.addEventListener('mousedown', startAndStopPainting);

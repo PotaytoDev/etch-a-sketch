@@ -4,7 +4,6 @@ function validateUserInput(gridSize)
     {
         alert("That is an invalid number. Please enter a number in the range " + 
                 "of 1 to 100.");
-
         return false;
     }
 
@@ -27,7 +26,7 @@ function getNewGridSize()
     return gridSize;
 }
 
-function clearGrid(gridContainer = document.querySelector('#grid-container'))
+function clearGrid(gridContainer)
 {
     while (gridContainer.hasChildNodes())
     {
@@ -35,15 +34,40 @@ function clearGrid(gridContainer = document.querySelector('#grid-container'))
     }
 }
 
-function enableSingleColorPaint()
+function getRandomNumber(highestNumberRange)
+{
+    return Math.floor(Math.random() * (highestNumberRange + 1));
+}
+
+function getPaintColor(paintButton)
+{
+    let paintColor;
+
+    // If rainbow paint is enabled, get a random paint color
+    if (paintButton === 'rainbow-brush-button')
+    {
+        paintColor = `rgb(${getRandomNumber(255)}, ` +
+            `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
+    }
+    // If single color paint is enabled, get selected color from color well
+    else if (paintButton === 'single-color-brush-button')
+    {
+        paintColor = document.querySelector('#color-well').value;
+    }
+
+    return paintColor;
+}
+
+function enablePaint(event)
 {
     let isDrawing = false;
     let paintColor;
+    let paintButton = event.target.id;
     const gridCells = document.querySelectorAll('.grid-cell');
 
     gridCells.forEach(gridCell => {
+
         gridCell.addEventListener('mousedown', (event) => {
-            paintColor = document.querySelector('#color-well').value;
             if (isDrawing)
             {
                 isDrawing = false;
@@ -51,29 +75,33 @@ function enableSingleColorPaint()
             else
             {
                 isDrawing = true;
+                paintColor = getPaintColor(paintButton);
+                
+                // Only paint grid cell if it is not already painted when clicked
                 event.target.style.cssText = `background-color: ${paintColor}`;
             }
-        });
-
+        })
+        
         gridCell.addEventListener('mouseover', (event) => {
             if (isDrawing)
             {
+                paintColor = getPaintColor(paintButton);
                 event.target.style.cssText = `background-color: ${paintColor}`;
             }
-        });
+        })
     });
 }
 
 function createNewGrid()
 {
     const gridContainer = document.querySelector('#grid-container');
-
     const gridSize = getNewGridSize();
 
     if (gridSize === 0) return;
 
     clearGrid(gridContainer);
 
+    // Create rows in grid that will hold the grid cells
     for (count = 0; count < gridSize; count++)
     {
         const div = document.createElement('div');
@@ -83,6 +111,7 @@ function createNewGrid()
 
     const rows = document.querySelectorAll('.row');
 
+    // Add to each row the amount of grid cells specified by gridSize
     rows.forEach((divElement) => {
         for (count = 0; count < gridSize; count++)
         {
@@ -117,50 +146,10 @@ function initiateEtchASketch()
     createNewGridButton.addEventListener('click', createNewGrid);
 
     const rainbowBrushButton = document.querySelector('#rainbow-brush-button');
-    rainbowBrushButton.addEventListener('click', changeToRandomColor);
+    rainbowBrushButton.addEventListener('click', enablePaint);
 
     const singleColorBrushButton = document.querySelector('#single-color-brush-button');
-    singleColorBrushButton.addEventListener('click', enableSingleColorPaint);
-}
-
-function changeToRandomColor()
-{
-    let isDrawing = false;
-    const gridCells = document.querySelectorAll('.grid-cell');
-
-    gridCells.forEach(gridCell => {
-        gridCell.addEventListener('mousedown', (event) => {
-            let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
-                    `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
-
-            if (isDrawing)
-            {
-                isDrawing = false;
-            }
-            else
-            {
-                isDrawing = true;
-                
-                // Only paint grid cell if it is not already painted when clicked
-                event.target.style.cssText = `background-color: ${randomRGBColor}`;
-            }
-        })
-        
-        gridCell.addEventListener('mouseover', (event) => {
-            if (isDrawing)
-            {
-                let randomRGBColor = `rgb(${getRandomNumber(255)}, ` +
-                    `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
-
-                event.target.style.cssText = `background-color: ${randomRGBColor}`;
-            }
-        })
-    });
-}
-
-function getRandomNumber(highestNumberRange)
-{
-    return Math.floor(Math.random() * (highestNumberRange + 1));
+    singleColorBrushButton.addEventListener('click', enablePaint);
 }
 
 initiateEtchASketch();

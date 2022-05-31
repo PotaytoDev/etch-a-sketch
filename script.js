@@ -58,37 +58,53 @@ function getPaintColor(paintButton)
     return paintColor;
 }
 
+// Global variables needed for the following four functions
+let isDrawing = false;
+let paintButton;
+
+function disablePaint(gridCells)
+{
+    gridCells.forEach(gridCell => {
+        gridCell.removeEventListener('mousedown', startAndStopPainting);
+        gridCell.removeEventListener('mouseover', continuePainting);
+    })
+}
+
+function startAndStopPainting(event)
+{
+    if (isDrawing)
+    {
+        isDrawing = false;
+    }
+    else
+    {
+        isDrawing = true;
+        let paintColor = getPaintColor(paintButton);
+        
+        // Only paint grid cell if it is not already painted when clicked
+        event.target.style.cssText = `background-color: ${paintColor}`;
+    }
+}
+
+function continuePainting(event)
+{
+    if (isDrawing)
+    {
+        let paintColor = getPaintColor(paintButton);
+        event.target.style.cssText = `background-color: ${paintColor}`;
+    }
+}
+
 function enablePaint(event)
 {
-    let isDrawing = false;
-    let paintColor;
-    let paintButton = event.target.id;
+    paintButton = event.target.id;
     const gridCells = document.querySelectorAll('.grid-cell');
 
-    gridCells.forEach(gridCell => {
+    disablePaint(gridCells);
 
-        gridCell.addEventListener('mousedown', (event) => {
-            if (isDrawing)
-            {
-                isDrawing = false;
-            }
-            else
-            {
-                isDrawing = true;
-                paintColor = getPaintColor(paintButton);
-                
-                // Only paint grid cell if it is not already painted when clicked
-                event.target.style.cssText = `background-color: ${paintColor}`;
-            }
-        })
-        
-        gridCell.addEventListener('mouseover', (event) => {
-            if (isDrawing)
-            {
-                paintColor = getPaintColor(paintButton);
-                event.target.style.cssText = `background-color: ${paintColor}`;
-            }
-        })
+    gridCells.forEach(gridCell => {
+        gridCell.addEventListener('mousedown', startAndStopPainting);
+        gridCell.addEventListener('mouseover', continuePainting);
     });
 }
 

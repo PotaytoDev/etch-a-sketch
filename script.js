@@ -96,6 +96,10 @@ function getPaintColor(event, paintButton)
 
         paintColor = getDarkenedColor(originalCellColor, currentCellColor);
     }
+    else if (paintButton === 'eraser-button')
+    {
+        paintColor = '';
+    }
 
     return paintColor;
 }
@@ -204,6 +208,9 @@ function initiateEtchASketch()
 
     const darkenBrushButton = document.querySelector('#darken-brush-button');
     darkenBrushButton.addEventListener('click', enablePaint);
+
+    const eraserButton = document.querySelector('#eraser-button');
+    eraserButton.addEventListener('click', enablePaint);
 }
 
 initiateEtchASketch();

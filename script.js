@@ -39,20 +39,62 @@ function getRandomNumber(highestNumberRange)
     return Math.floor(Math.random() * (highestNumberRange + 1));
 }
 
-function getPaintColor(paintButton)
+function getColorValues(colorString)
+{
+    // Replace string with an array of strings of each different value in RGB
+    colorString = colorString.substring(colorString.indexOf('(') + 1,
+            colorString.indexOf(')'));
+    colorString = colorString.split(',');
+
+    // Convert array of strings into array of numbers and return it
+    return colorString.map((item) => Number(item));
+}
+
+function calculateNewColorValue(originalValue, currentValue)
+{
+    let newValue = currentValue - (originalValue / 10)
+
+    return (newValue < 0 ? 0 : newValue);
+}
+
+function getDarkenedColor(originalColor, currentColor)
+{
+    redValue = calculateNewColorValue(originalColor[0], currentColor[0]);
+    greenValue = calculateNewColorValue(originalColor[1], currentColor[1]);
+    blueValue = calculateNewColorValue(originalColor[2], currentColor[2]);
+
+    return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+}
+
+function getPaintColor(event, paintButton)
 {
     let paintColor;
 
     // If rainbow paint is enabled, get a random paint color
     if (paintButton === 'rainbow-brush-button')
     {
-        paintColor = `rgb(${getRandomNumber(255)}, ` +
-            `${getRandomNumber(255)}, ${getRandomNumber(255)})`;
+        paintColor = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)}, ` +
+                `${getRandomNumber(255)})`;
     }
     // If single color paint is enabled, get selected color from color well
     else if (paintButton === 'single-color-brush-button')
     {
         paintColor = document.querySelector('#color-well').value;
+    }
+    // Darken brush will darken the current color of a grid cell by 10% each time
+    else if (paintButton === 'darken-brush-button')
+    {
+        // Store original cell color as property of event target so it will remain
+        // static and be used as a base for new color calculations
+        if (!event.target.originalColor)
+        {
+            event.target.originalColor = event.target.style.backgroundColor;
+        }
+
+        let originalCellColor = getColorValues(event.target.originalColor);
+        let currentCellColor = getColorValues(event.target.style.backgroundColor);
+
+        paintColor = getDarkenedColor(originalCellColor, currentCellColor);
     }
 
     return paintColor;
@@ -72,7 +114,7 @@ function enablePaint(event)
         else
         {
             isDrawing = true;
-            let paintColor = getPaintColor(paintButton);
+            let paintColor = getPaintColor(event, paintButton);
             
             // Only paint grid cell if it is not already painted when clicked
             event.target.style.cssText = `background-color: ${paintColor}`;
@@ -83,7 +125,7 @@ function enablePaint(event)
     {
         if (isDrawing)
         {
-            let paintColor = getPaintColor(paintButton);
+            let paintColor = getPaintColor(event, paintButton);
             event.target.style.cssText = `background-color: ${paintColor}`;
         }
     }
@@ -159,6 +201,9 @@ function initiateEtchASketch()
 
     const singleColorBrushButton = document.querySelector('#single-color-brush-button');
     singleColorBrushButton.addEventListener('click', enablePaint);
+
+    const darkenBrushButton = document.querySelector('#darken-brush-button');
+    darkenBrushButton.addEventListener('click', enablePaint);
 }
 
 initiateEtchASketch();

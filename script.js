@@ -70,36 +70,39 @@ function getPaintColor(event, paintButton)
 {
     let paintColor;
 
-    // If rainbow paint is enabled, get a random paint color
-    if (paintButton === 'rainbow-brush-button')
+    switch (paintButton)
     {
-        paintColor = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)}, ` +
+        case 'rainbow-brush-button':
+            paintColor = `rgb(${getRandomNumber(255)}, ${getRandomNumber(255)}, ` +
                 `${getRandomNumber(255)})`;
-    }
-    // If single color paint is enabled, get selected color from color well
-    else if (paintButton === 'single-color-brush-button')
-    {
-        paintColor = document.querySelector('#color-well').value;
-    }
-    // Darken brush will darken the current color of a grid cell by 10% each time
-    else if (paintButton === 'darken-brush-button')
-    {
-        // Store original cell color as property of event target so it will remain
-        // static and be used as a base for new color calculations
-        if (!event.target.originalColor)
-        {
-            event.target.originalColor = event.target.style.backgroundColor;
-        }
+            break;
 
-        let originalCellColor = getColorValues(event.target.originalColor);
-        let currentCellColor = getColorValues(event.target.style.backgroundColor);
+        case 'single-color-brush-button':
+            paintColor = document.querySelector('#color-well').value;
+            break;
 
-        paintColor = getDarkenedColor(originalCellColor, currentCellColor);
-    }
-    else if (paintButton === 'eraser-button')
-    {
-        paintColor = document.querySelector('#canvas-color-well').value;
-        event.target.classList.remove('painted');
+        // Darken brush will darken the current color of a grid cell by 10% each time
+        case 'darken-brush-button':
+            // Store original cell color as property of event target so it will
+            // remain static and be used as a base for new color calculations
+            if (!event.target.originalColor)
+            {
+                event.target.originalColor = event.target.style.backgroundColor;
+            }
+
+            let originalCellColor = getColorValues(event.target.originalColor);
+            let currentCellColor = getColorValues(event.target.style.backgroundColor);
+
+            paintColor = getDarkenedColor(originalCellColor, currentCellColor);
+            break;
+
+        case 'eraser-button':
+            paintColor = document.querySelector('#canvas-color-well').value;
+            event.target.classList.remove('painted');
+            break;
+
+        default:
+            paintColor = "rgb(0, 0, 0)";
     }
 
     return paintColor;
@@ -110,7 +113,7 @@ function enablePaint(event)
     let isDrawing = false;
     let paintButton = event.target.id;
 
-    function startAndStopPainting(event)
+    startAndStopPainting = function(event)
     {
         if (isDrawing)
         {
@@ -127,7 +130,7 @@ function enablePaint(event)
         }
     }
 
-    function continuePainting(event)
+    continuePainting = function(event)
     {
         if (isDrawing)
         {

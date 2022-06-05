@@ -101,6 +101,8 @@ button:active {
   padding-left: 12px;
 }
 
+/* Left Buttons Container */
+
 #left-buttons-container {
   display: flex;
   flex-direction: column;
@@ -114,4 +116,10 @@ button:active {
   justify-content: center;
   flex-wrap: wrap;
   flex: 0 1 0;
+}
+
+/* Toggle Borders Button */
+
+#toggle-borders-button {
+  flex: 0;
 }

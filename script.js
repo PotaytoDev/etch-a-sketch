@@ -121,7 +121,7 @@ function enablePaint(event)
             let paintColor = getPaintColor(event, paintButton);
             
             // Only paint grid cell if it is not already painted when clicked
-            event.target.style.cssText = `background-color: ${paintColor}`;
+            event.target.style.backgroundColor = `${paintColor}`;
         }
     }
 
@@ -130,7 +130,7 @@ function enablePaint(event)
         if (isDrawing)
         {
             let paintColor = getPaintColor(event, paintButton);
-            event.target.style.cssText = `background-color: ${paintColor}`;
+            event.target.style.backgroundColor = `${paintColor}`;
         }
     }
 
@@ -198,7 +198,23 @@ function changeCanvasColor()
     const canvasColorWell = document.querySelector('#canvas-color-well');
 
     gridCells.forEach(gridCell => {
-        gridCell.style.cssText = `background-color: ${canvasColorWell.value}`;
+        gridCell.style.backgroundColor = `${canvasColorWell.value}`;
+    });
+}
+
+function toggleBorders()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
+
+    gridCells.forEach(gridCell => {
+        if (gridCell.style.border === 'none')
+        {
+            gridCell.style.border = "1px solid #E5C2CB";
+        }
+        else
+        {
+            gridCell.style.border = "none";
+        }
     });
 }
 
@@ -226,6 +242,9 @@ function initiateEtchASketch()
 
     const canvasColorButton = document.querySelector('#canvas-color-button');
     canvasColorButton.addEventListener('click', changeCanvasColor);
+
+    const toggleBordersButton = document.querySelector('#toggle-borders-button');
+    toggleBordersButton.addEventListener('click', toggleBorders);
 }
 
 initiateEtchASketch();

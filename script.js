@@ -98,7 +98,7 @@ function getPaintColor(event, paintButton)
     }
     else if (paintButton === 'eraser-button')
     {
-        paintColor = '';
+        paintColor = document.querySelector('#canvas-color-well').value;
     }
 
     return paintColor;
@@ -174,9 +174,9 @@ function createNewGrid()
             div.classList.toggle('grid-cell');
             divElement.appendChild(div);
         }
-    })
+    });
 
-    changeCanvasColor()
+    changeCanvasColor();
 }
 
 function enableSingleButton(event)

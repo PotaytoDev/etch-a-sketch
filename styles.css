@@ -67,8 +67,9 @@ button:active {
 /* Grid Container */
 
 #grid-container {
-  height: 85vh;
-  min-width: 40rem;
+  min-height: 35rem;
+  min-width: 35rem;
+  max-width: 50rem;
   border: 3px solid #000000;
   display: flex;
   flex-direction: column;
@@ -98,7 +99,6 @@ button:active {
 #bottom-half-container {
   display: flex;
   padding: 20px;
-  padding-left: 12px;
 }
 
 /* Left Buttons Container */
@@ -106,7 +106,7 @@ button:active {
 #left-buttons-container {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  min-width: 300px;
 }
 
 /* Canvas Color Button Container */
@@ -115,11 +115,26 @@ button:active {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
   flex: 0 1 0;
+  padding-left: 16px;
+}
+
+#canvas-color-button {
+  flex: 1;
 }
 
 /* Toggle Borders Button */
 
 #toggle-borders-button {
   flex: 0;
+}
+
+/* Grid */
+
+#grid {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }

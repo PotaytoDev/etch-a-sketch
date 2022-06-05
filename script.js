@@ -99,6 +99,7 @@ function getPaintColor(event, paintButton)
     else if (paintButton === 'eraser-button')
     {
         paintColor = document.querySelector('#canvas-color-well').value;
+        event.target.classList.remove('painted');
     }
 
     return paintColor;
@@ -118,6 +119,7 @@ function enablePaint(event)
         else
         {
             isDrawing = true;
+            event.target.classList.add('painted');
             let paintColor = getPaintColor(event, paintButton);
             
             // Only paint grid cell if it is not already painted when clicked
@@ -129,6 +131,7 @@ function enablePaint(event)
     {
         if (isDrawing)
         {
+            event.target.classList.add('painted');
             let paintColor = getPaintColor(event, paintButton);
             event.target.style.backgroundColor = `${paintColor}`;
         }
@@ -198,7 +201,10 @@ function changeCanvasColor()
     const canvasColorWell = document.querySelector('#canvas-color-well');
 
     gridCells.forEach(gridCell => {
-        gridCell.style.backgroundColor = `${canvasColorWell.value}`;
+        if (!gridCell.classList.contains('painted'))
+        {
+            gridCell.style.backgroundColor = `${canvasColorWell.value}`;
+        }
     });
 }
 

@@ -175,6 +175,8 @@ function createNewGrid()
             divElement.appendChild(div);
         }
     })
+
+    changeCanvasColor()
 }
 
 function enableSingleButton(event)
@@ -190,12 +192,22 @@ function enableSingleButton(event)
     }
 }
 
+function changeCanvasColor()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
+    const canvasColorWell = document.querySelector('#canvas-color-well');
+
+    gridCells.forEach(gridCell => {
+        gridCell.style.cssText = `background-color: ${canvasColorWell.value}`;
+    });
+}
+
 function initiateEtchASketch()
 {
     const paintButtons = document.querySelectorAll('button');
     paintButtons.forEach(button => {
         button.addEventListener('click', enableSingleButton);
-    })
+    });
     
     const createNewGridButton = document.querySelector('#create-new-grid-button');
     createNewGridButton.addEventListener('click', createNewGrid);
@@ -211,6 +223,9 @@ function initiateEtchASketch()
 
     const eraserButton = document.querySelector('#eraser-button');
     eraserButton.addEventListener('click', enablePaint);
+
+    const canvasColorButton = document.querySelector('#canvas-color-button');
+    canvasColorButton.addEventListener('click', changeCanvasColor);
 }
 
 initiateEtchASketch();

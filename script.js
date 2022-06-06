@@ -235,6 +235,17 @@ function toggleBorders()
     });
 }
 
+function resetGrid()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
+    const canvasColorWell = document.querySelector('#canvas-color-well');
+
+    gridCells.forEach(gridCell => {
+        gridCell.classList.remove('painted');
+        gridCell.style.backgroundColor = `${canvasColorWell.value}`;
+    });
+}
+
 function initiateEtchASketch()
 {
     const paintButtons = document.querySelectorAll('.brush');
@@ -251,6 +262,9 @@ function initiateEtchASketch()
 
     const toggleBordersButton = document.querySelector('#toggle-borders-button');
     toggleBordersButton.addEventListener('click', toggleBorders);
+
+    const resetGridButton = document.querySelector('#reset-grid-button');
+    resetGridButton.addEventListener('click', resetGrid);
 }
 
 initiateEtchASketch();

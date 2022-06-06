@@ -226,7 +226,9 @@ function toggleBorders()
     gridCells.forEach(gridCell => {
         if (gridCell.style.border === 'none')
         {
-            gridCell.style.border = "1px solid #E5C2CB";
+            gridCell.style.border = "1px solid";
+            gridCell.style.borderColor =
+                    document.querySelector('#border-color-well').value;
         }
         else
         {
@@ -243,6 +245,16 @@ function resetGrid()
     gridCells.forEach(gridCell => {
         gridCell.classList.remove('painted');
         gridCell.style.backgroundColor = `${canvasColorWell.value}`;
+    });
+}
+
+function changeBorderColor()
+{
+    const gridCells = document.querySelectorAll('.grid-cell');
+    const borderColorWell = document.querySelector('#border-color-well');
+
+    gridCells.forEach(gridCell => {
+        gridCell.style.borderColor = `${borderColorWell.value}`;
     });
 }
 
@@ -265,6 +277,9 @@ function initiateEtchASketch()
 
     const resetGridButton = document.querySelector('#reset-grid-button');
     resetGridButton.addEventListener('click', resetGrid);
+
+    const borderColorButton = document.querySelector('#border-color-button');
+    borderColorButton.addEventListener('click', changeBorderColor);
 }
 
 initiateEtchASketch();

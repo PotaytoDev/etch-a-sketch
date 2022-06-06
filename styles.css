@@ -115,9 +115,10 @@ button:active {
   flex: 0;
 }
 
-/* Canvas Color Button Container */
+/* Canvas and Border Color Button Container */
 
-#canvas-color-button-container {
+#canvas-color-button-container,
+#border-color-button-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

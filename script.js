@@ -197,17 +197,13 @@ function createNewGrid()
     changeCanvasColor();
 }
 
-function enableSingleButton(event)
+function activateOneButtonAtOnce(event)
 {
-    document.querySelectorAll('button').forEach(button => {
-        button.classList.remove('active')
+    document.querySelectorAll('.brush').forEach(button => {
+        button.classList.remove('active');
     });
     
-    // Only add 'active' class to button if it is not the create-new-grid button
-    if (event.target.id !== 'create-new-grid-button')
-    {
-        event.target.classList.add('active');
-    }
+    event.target.classList.add('active');
 }
 
 function changeCanvasColor()
@@ -241,28 +237,14 @@ function toggleBorders()
 
 function initiateEtchASketch()
 {
-    const paintButtons = document.querySelectorAll('button');
-    paintButtons.forEach(button => {
-        button.addEventListener('click', enableSingleButton);
+    const paintButtons = document.querySelectorAll('.brush');
+    paintButtons.forEach(paintButton => {
+        paintButton.addEventListener('click', enablePaint);
+        paintButton.addEventListener('click', activateOneButtonAtOnce);
     });
     
     const createNewGridButton = document.querySelector('#create-new-grid-button');
     createNewGridButton.addEventListener('click', createNewGrid);
-
-    const rainbowBrushButton = document.querySelector('#rainbow-brush-button');
-    rainbowBrushButton.addEventListener('click', enablePaint);
-
-    const singleColorBrushButton = document.querySelector('#single-color-brush-button');
-    singleColorBrushButton.addEventListener('click', enablePaint);
-
-    const darkenBrushButton = document.querySelector('#darken-brush-button');
-    darkenBrushButton.addEventListener('click', enablePaint);
-
-    const eraserButton = document.querySelector('#eraser-button');
-    eraserButton.addEventListener('click', enablePaint);
-
-    const lightenButton = document.querySelector('#lighten-brush-button');
-    lightenButton.addEventListener('click', enablePaint);
 
     const canvasColorButton = document.querySelector('#canvas-color-button');
     canvasColorButton.addEventListener('click', changeCanvasColor);

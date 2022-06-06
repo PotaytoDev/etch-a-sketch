@@ -50,18 +50,27 @@ function getColorValues(colorString)
     return colorString.map((item) => Number(item));
 }
 
-function calculateNewColorValue(originalValue, currentValue)
+function calculateNewColorValue(originalValue, currentValue, paintButton)
 {
-    let newValue = currentValue - (originalValue / 10)
+    let newValue;
 
-    return (newValue < 0 ? 0 : newValue);
+    if (paintButton === 'darken-brush-button')
+    {
+        newValue = currentValue - (originalValue / 10);
+        return (newValue < 0 ? 0 : newValue);
+    }
+    else if (paintButton === 'lighten-brush-button')
+    {
+        newValue = currentValue + ((255 - originalValue) / 10);
+        return (newValue > 255 ? 255 : newValue);
+    }
 }
 
-function getDarkenedColor(originalColor, currentColor)
+function getChangedColor(originalColor, currentColor, paintButton)
 {
-    redValue = calculateNewColorValue(originalColor[0], currentColor[0]);
-    greenValue = calculateNewColorValue(originalColor[1], currentColor[1]);
-    blueValue = calculateNewColorValue(originalColor[2], currentColor[2]);
+    redValue = calculateNewColorValue(originalColor[0], currentColor[0], paintButton);
+    greenValue = calculateNewColorValue(originalColor[1], currentColor[1], paintButton);
+    blueValue = calculateNewColorValue(originalColor[2], currentColor[2], paintButton);
 
     return `rgb(${redValue}, ${greenValue}, ${blueValue})`;
 }
@@ -69,6 +78,14 @@ function getDarkenedColor(originalColor, currentColor)
 function getPaintColor(event, paintButton)
 {
     let paintColor;
+    let originalCellColor;
+    let currentCellColor;
+    // Store original cell color as property of event target so it will
+    // remain static and be used as a base for new color calculations
+    if (!event.target.originalColor)
+    {
+        event.target.originalColor = event.target.style.backgroundColor;
+    }
 
     switch (paintButton)
     {
@@ -83,17 +100,12 @@ function getPaintColor(event, paintButton)
 
         // Darken brush will darken the current color of a grid cell by 10% each time
         case 'darken-brush-button':
-            // Store original cell color as property of event target so it will
-            // remain static and be used as a base for new color calculations
-            if (!event.target.originalColor)
-            {
-                event.target.originalColor = event.target.style.backgroundColor;
-            }
+        case 'lighten-brush-button':
+            originalCellColor = getColorValues(event.target.originalColor);
+            currentCellColor = getColorValues(event.target.style.backgroundColor);
 
-            let originalCellColor = getColorValues(event.target.originalColor);
-            let currentCellColor = getColorValues(event.target.style.backgroundColor);
-
-            paintColor = getDarkenedColor(originalCellColor, currentCellColor);
+            paintColor = getChangedColor(originalCellColor, currentCellColor,
+                    paintButton);
             break;
 
         case 'eraser-button':
@@ -248,6 +260,9 @@ function initiateEtchASketch()
 
     const eraserButton = document.querySelector('#eraser-button');
     eraserButton.addEventListener('click', enablePaint);
+
+    const lightenButton = document.querySelector('#lighten-brush-button');
+    lightenButton.addEventListener('click', enablePaint);
 
     const canvasColorButton = document.querySelector('#canvas-color-button');
     canvasColorButton.addEventListener('click', changeCanvasColor);

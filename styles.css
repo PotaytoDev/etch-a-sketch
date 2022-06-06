@@ -109,6 +109,11 @@ button:active {
   min-width: 300px;
 }
 
+#toggle-borders-button,
+#lighten-brush-button {
+  flex: 0;
+}
+
 /* Canvas Color Button Container */
 
 #canvas-color-button-container {
@@ -122,12 +127,6 @@ button:active {
 
 #canvas-color-button {
   flex: 1;
-}
-
-/* Toggle Borders Button */
-
-#toggle-borders-button {
-  flex: 0;
 }
 
 /* Grid */
